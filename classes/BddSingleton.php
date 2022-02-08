@@ -11,12 +11,14 @@ class BddSingleton {
     private string $charset = "utf8";
 
     public function bddConnect(): PDO{
+        //condition qui annonce que si objet est null on try catch.
         if(self::$object === null) {
             try {
                 self::$object = new PDO("mysql:host{$this->server};dbname={$this->bddName};charset={$this->charset}", $this->username, $this->password);
                 self::$object->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch (PDOException $e) {
+                //crash la tentative de connexion si il y a une erreur
                 die();
             }
         }
@@ -58,6 +60,5 @@ class BddSingleton {
         $this->bddName = $bddName;
         return $this;
     }
-
 
 }
